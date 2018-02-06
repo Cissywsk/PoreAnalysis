@@ -10,7 +10,7 @@ Yfull = []
 Zfull = []
 
 #open original pdb, select all water molecules
-with open("last.pdb") as inp:
+with open("last-r3.pdb") as inp:
 	inp.next()
 	for line in inp:
 		if "WAT" in line and "TER" not in line:
@@ -45,7 +45,7 @@ delta = [ abs(i - j) for i,j in zip(n[:-1], n[1:])]
 minBound = 10000
 maxBound = -10000
 for i, j in enumerate(delta):
-	if j < 7:
+	if j < 7.0 and i in range(4,16):
 		minBin = bins[i]
 		maxBin = bins[i+2]
 		if minBound > minBin:
@@ -54,8 +54,10 @@ for i, j in enumerate(delta):
 			maxBound = maxBin
 plt.vlines(minBound, 0, 200)
 plt.vlines(maxBound, 0, 200)
-#print(minBound)
-#print(maxBound)
+print(n)
+print(delta)
+print(minBound)
+print(maxBound)
 
 # select the water molecules X,Y,Z in X/Y/Zfilter in the pore -> within the range
 Xfilter = []
