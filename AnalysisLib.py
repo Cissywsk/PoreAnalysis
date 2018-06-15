@@ -185,7 +185,6 @@ def findHole(matrix):
 	for i in range(0, len(matrix)):
 		for j in range(0, len(matrix[i,:])):
 			if RefMatrix[i, j] == 0:
-				print RefMatrix
 				RefMatrix[i, j] = 1
 
 				TotSize = 0
@@ -211,9 +210,7 @@ def findHole(matrix):
 
 						currentCell = ZeroCell[0]
 						CheckCell.append(currentCell)
-
 						RefMatrix[currentCell] = 1
-						print(RefMatrix)
 						ZeroCell = ZeroCell[1:]
 						neighbour = findNeighbour(currentCell[0], currentCell[1], matrix)
 						bord = findNeighbour(currentCell[0], currentCell[1], matrix, full=True)[1][4:]
