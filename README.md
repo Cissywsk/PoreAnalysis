@@ -1,5 +1,6 @@
 # PoreAnalysis
 Scripts to analyse the pore formation in the membranes. 
+<<<<<<< HEAD
 
 AnalysisLib.py
  <br />The basic library of the analysis. Functions include:
@@ -39,3 +40,6 @@ RealTimeAnalysis.py - a script
  <br />Input: image centred trajectory file, normal files required for cpptraj
  <br />Output:
  <br />results.dat - a summary of the structural properties
+=======
+Please go to folder PoreAnalysis for more detailed and tidy information
+>>>>>>> e29f56efb21c82a40ef6f10aeeca169c8a8acc61
