@@ -180,37 +180,21 @@ def findHole(matrix):
 
 	MaxSize = 0
 
+	RefMatrix = np.zeros((len(matrix), len(matrix[0])))
+
 	for i in range(0, len(matrix)):
 		for j in range(0, len(matrix[i,:])):
-			TotSize = 0
-			ZeroCell = []
-			if matrix[i, j] == 0:
-				neighbour = findNeighbour(i, j, matrix)
-				neighbrVal = neighbour[0]
-				neighbrCor = neighbour[1]
-				CheckCell = [[i, j]]
-				border = findNeighbour(i, j, matrix, full=True)[1][4:]
-
-
-				for val, cor in zip(neighbrVal, neighbrCor):
-					if val == 0:
-						if cor not in ZeroCell and cor not in CheckCell:
-							ZeroCell.append(cor)
-					else:
-						if cor not in border:
-							border.append(cor)
-
-
-				while len(ZeroCell) != 0:
-
-					currentCell = ZeroCell[0]
-					CheckCell.append(currentCell)
-					ZeroCell = ZeroCell[1:]
-					neighbour = findNeighbour(currentCell[0], currentCell[1], matrix)
-					bord = findNeighbour(currentCell[0], currentCell[1], matrix, full=True)[1][4:]
-					border.extend(bord)
+			if RefMatrix[i, j] == 0:
+				RefMatrix[i, j] = 1
+				TotSize = 0
+				ZeroCell = []
+				if matrix[i, j] == 0:
+					neighbour = findNeighbour(i, j, matrix)
 					neighbrVal = neighbour[0]
 					neighbrCor = neighbour[1]
+					CheckCell = [[i, j]]
+					border = findNeighbour(i, j, matrix, full=True)[1][4:]
+
 
 					for val, cor in zip(neighbrVal, neighbrCor):
 						if val == 0:
@@ -219,20 +203,41 @@ def findHole(matrix):
 						else:
 							if cor not in border:
 								border.append(cor)
-				
-				UniqueBorder = []
-				lipNum = 0
 
-				for k in border:
-					if k not in CheckCell and k not in UniqueBorder:
-						UniqueBorder.append(k)
-						lipNum += matrix[k[0], k[1]]
-				TotSize = len(CheckCell) + len(UniqueBorder)
 
-			if TotSize > MaxSize:
-				MaxSize = TotSize
-				MaxZero = CheckCell
-				MaxBorder = UniqueBorder
-				MaxLip = lipNum
+					while len(ZeroCell) != 0:
+
+						currentCell = ZeroCell[0]
+						CheckCell.append(currentCell)
+						RefMatrix[currentCell] = 1
+						ZeroCell = ZeroCell[1:]
+						neighbour = findNeighbour(currentCell[0], currentCell[1], matrix)
+						bord = findNeighbour(currentCell[0], currentCell[1], matrix, full=True)[1][4:]
+						border.extend(bord)
+						neighbrVal = neighbour[0]
+						neighbrCor = neighbour[1]
+
+						for val, cor in zip(neighbrVal, neighbrCor):
+							if val == 0:
+								if cor not in ZeroCell and cor not in CheckCell:
+									ZeroCell.append(cor)
+							else:
+								if cor not in border:
+									border.append(cor)
+					
+					UniqueBorder = []
+					lipNum = 0
+
+					for k in border:
+						if k not in CheckCell and k not in UniqueBorder:
+							UniqueBorder.append(k)
+							lipNum += matrix[k[0], k[1]]
+					TotSize = len(CheckCell) + len(UniqueBorder)
+
+				if TotSize > MaxSize:
+					MaxSize = TotSize
+					MaxZero = CheckCell
+					MaxBorder = UniqueBorder
+					MaxLip = lipNum
 	return MaxZero, MaxBorder, MaxLip
 
